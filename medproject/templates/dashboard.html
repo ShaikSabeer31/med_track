@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - MedTrack</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f6fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        h2 {
+            color: #1f4e78;
+            margin-bottom: 20px;
+        }
+
+        .role-info {
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            display: inline-block;
+            background-color: #1f4e78;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #3c78b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, {{ current_user.username }}</h2>
+        <div class="role-info">
+            You are logged in as <strong>{{ current_user.role | capitalize }}</strong>.
+        </div>
+
+        <div class="nav-links">
+            {% if current_user.role == 'patient' %}
+                <a href="{{ url_for('book') }}">Book Appointment</a>
+                <a href="{{ url_for('appointments') }}">View Appointments</a>
+                <a href="{{ url_for('diagnosis') }}">Submit Diagnosis</a>
+                <a href="{{ url_for('view_diagnosis') }}">View Diagnosis History</a>
+            {% elif current_user.role == 'doctor' %}
+                <a href="{{ url_for('appointments') }}">View Appointments</a>
+                <a href="{{ url_for('manage_diagnosis') }}">Manage All Diagnoses</a>
+            {% else %}
+                <a href="{{ url_for('appointments') }}">View Appointments</a>
+            {% endif %}
+            
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

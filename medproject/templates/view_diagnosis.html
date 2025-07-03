@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Diagnosis - MedTrack</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #1f4e78;
+            margin-bottom: 30px;
+        }
+
+        .diagnosis-entry {
+            background-color: #f9fafe;
+            border: 1px solid #d5dce3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .diagnosis-entry strong {
+            color: #1f4e78;
+        }
+
+        .no-records {
+            text-align: center;
+            font-style: italic;
+            color: #555;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-link a {
+            text-decoration: none;
+            color: #1f4e78;
+            font-weight: bold;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Your Diagnosis History</h2>
+
+        {% if diagnoses %}
+            {% for d in diagnoses %}
+                <div class="diagnosis-entry">
+                    <p><strong>Symptoms:</strong> {{ d.symptoms }}</p>
+                    <p><strong>Status:</strong> {{ d.status }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-records">No diagnoses submitted yet.</p>
+        {% endif %}
+
+        <div class="back-link">
+            <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

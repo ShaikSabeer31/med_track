@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Diagnoses - MedTrack</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #1f4e78;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #1f4e78;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f4f6f9;
+        }
+
+        select {
+            padding: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 6px 12px;
+            background-color: #1f4e78;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3c78b3;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-link a {
+            text-decoration: none;
+            color: #1f4e78;
+            font-weight: bold;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Manage Patient Diagnoses</h2>
+        {% if diagnoses %}
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Patient ID</th>
+                <th>Symptoms</th>
+                <th>Status</th>
+                <th>Update Status</th>
+            </tr>
+            {% for d in diagnoses %}
+            <tr>
+                <td>{{ d.id }}</td>
+                <td>{{ d.user_id }}</td>
+                <td>{{ d.symptoms }}</td>
+                <td>{{ d.status }}</td>
+                <td>
+                    <form method="POST">
+                        <input type="hidden" name="diag_id" value="{{ d.id }}">
+                        <select name="status">
+                            <option value="Pending" {% if d.status == 'Pending' %}selected{% endif %}>Pending</option>
+                            <option value="Under Review" {% if d.status == 'Under Review' %}selected{% endif %}>Under Review</option>
+                            <option value="Confirmed" {% if d.status == 'Confirmed' %}selected{% endif %}>Confirmed</option>
+                        </select>
+                        <button type="submit">Update</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+            <p style="text-align:center;">No diagnoses available.</p>
+        {% endif %}
+
+        <div class="back-link">
+            <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

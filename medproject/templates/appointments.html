@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Appointments - MedTrack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #eef2f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #1f4e78;
+            margin-bottom: 25px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #f7f9fc;
+            margin-bottom: 12px;
+            padding: 15px 20px;
+            border-left: 6px solid #1f4e78;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .no-data {
+            text-align: center;
+            color: #666;
+            margin-top: 20px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-link a {
+            text-decoration: none;
+            color: #1f4e78;
+            font-weight: bold;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Appointments</h2>
+
+        {% if appointments %}
+            <ul>
+                {% if role == 'doctor' %}
+                    {% for appt, patient in appointments %}
+                        <li><strong>Patient:</strong> {{ patient.username }}<br>
+                            <strong>Date:</strong> {{ appt.date }}<br>
+                            <strong>Time:</strong> {{ appt.time }}
+                        </li>
+                    {% endfor %}
+                {% elif role == 'patient' %}
+                    {% for appt in appointments %}
+                        <li><strong>Doctor:</strong> {{ appt.doctor }}<br>
+                            <strong>Date:</strong> {{ appt.date }}<br>
+                            <strong>Time:</strong> {{ appt.time }}
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-data">No appointments available for your role.</p>
+                {% endif %}
+            </ul>
+        {% else %}
+            <p class="no-data">No appointments found.</p>
+        {% endif %}
+
+        <div class="back-link">
+            <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>
